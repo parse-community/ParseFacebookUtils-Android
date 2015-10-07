@@ -1,0 +1,3 @@
+<resources>
+    <string name="facebook_app_id">facebook_app_id_from_manifest</string>
+</resources>

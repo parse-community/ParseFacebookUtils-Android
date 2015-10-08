@@ -52,7 +52,7 @@ We're still working on providing a code style for your IDE and getting a linter 
 * Try to keep lines under 100 characters, if possible.
 
 ## License
-By contributing to Parse Android SDK, you agree that your contributions will be licensed under its license.
+By contributing to Parse Facebook Utils for Android, you agree that your contributions will be licensed under its license.
 
  [google-group]: https://groups.google.com/forum/#!forum/parse-developers
  [stack-overflow]: http://stackoverflow.com/tags/parse.com

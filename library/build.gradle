@@ -42,6 +42,8 @@ android.libraryVariants.all { variant ->
         exclude '**/Manifest.class'
         exclude '**/Manifest\$*.class'
         exclude '**/BuildConfig.class'
+
+        baseName 'ParseFacebookUtilsV3'
     }
 
     def javadocTask = task("javadoc${variant.name.capitalize()}", type: Javadoc) {

@@ -11,9 +11,10 @@ env:
 
 android:
   components:
-    - build-tools-22.0.1
+    - build-tools-23.0.1
+    - android-23
     - android-22
-    - doc-MNC
+    - doc-23
     - sys-img-armeabi-v7a-$ANDROID_TARGET
     - extra-android-support
     - extra-android-m2repository

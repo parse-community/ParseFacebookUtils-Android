@@ -3,7 +3,7 @@ import com.android.builder.core.BuilderConstants
 apply plugin: 'com.android.library'
 
 group = 'com.parse'
-version = VERSION_NAME
+version = '1.10.4-SNAPSHOT'
 
 buildscript {
     repositories {
@@ -23,7 +23,7 @@ android {
         minSdkVersion 9
         targetSdkVersion 23
         versionCode 1
-        versionName VERSION_NAME
+        versionName project.version
     }
 }
 

@@ -18,7 +18,7 @@ android {
 }
 
 dependencies {
-    compile 'com.parse:parse-android:1.10.2'
+    compile 'com.parse:parse-android:1.11.0'
 
     compile 'com.facebook.android:facebook-android-sdk:3.21.0'
 }

@@ -18,9 +18,15 @@ android {
 }
 
 dependencies {
-    compile 'com.parse:parse-android:1.10.2'
+    compile 'com.parse:parse-android:1.11.0'
 
-    compile 'com.facebook.android:facebook-android-sdk:3.21.0'
+    // We need to exclude bolts-android since facebook-android-sdk 3.x.x depends on a version of
+    // bolts-android before being split into bolts-tasks and bolts-applinks.
+    compile ('com.facebook.android:facebook-android-sdk:3.23.1') {
+        exclude module: 'bolts-android'
+    }
+    // facebook-android-sdk 3.x.x depends on AppLinks inside bolts-android
+    compile 'com.parse.bolts:bolts-applinks:1.3.0'
 }
 
 android.libraryVariants.all { variant ->

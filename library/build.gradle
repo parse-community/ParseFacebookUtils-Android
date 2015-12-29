@@ -28,7 +28,7 @@ android {
 }
 
 dependencies {
-    compile 'com.parse:parse-android:1.11.0'
+    compile 'com.parse:parse-android:1.12.0'
 
     // We need to exclude bolts-android since facebook-android-sdk 4.x.x depends on a version of
     // bolts-android before being split into bolts-tasks and bolts-applinks.

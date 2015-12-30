@@ -10,7 +10,7 @@ Download [the latest JAR][latest] or define in Gradle:
 
 ```groovy
 dependencies {
-  compile 'com.parse:parsefacebookutils-v3-android:1.10.3@aar'
+  compile 'com.parse:parsefacebookutils-v3-android:1.10.4@aar'
 }
 ```
 

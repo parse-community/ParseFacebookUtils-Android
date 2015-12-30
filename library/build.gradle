@@ -3,7 +3,7 @@ import com.android.builder.core.BuilderConstants
 apply plugin: 'com.android.library'
 
 group = 'com.parse'
-version = '1.10.4-SNAPSHOT'
+version = '1.10.4'
 
 buildscript {
     repositories {

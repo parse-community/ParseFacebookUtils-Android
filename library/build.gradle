@@ -114,7 +114,7 @@ uploadArchives {
         pom.project {
             name 'ParseFacebookUtils-Android'
             artifactId = 'parsefacebookutils-v4-android'
-            packaging 'jar'
+            packaging 'aar'
             description 'A utility library to authenticate ParseUsers with the Facebook SDK'
             url 'https://github.com/ParsePlatform/ParseFacebookUtils-Android'
 

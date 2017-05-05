@@ -24,24 +24,24 @@ import bolts.Task;
 
 /**
  * Provides a set of utilities for using Parse with Facebook.
- * <p/>
+ * <p>
  * <strong>Note:</strong> {@code ParseFacebookUtils} requires Facebook Android SDK v4.x.x
- * <p/>
+ * <p>
  * To use {@code ParseFacebookUtils}, you'll need to set up the Facebook SDK:
- * <p/>
+ * <p>
  * Add the Facebook SDK: {@code compile 'com.facebook.android:facebook-android-sdk:4.x.x'}
- * <p/>
+ * <p>
  * Add the following to the {@code <application>} node in your AndroidManifest.xml:
  * <pre>
  * &lt;meta-data
  *        android:name="com.facebook.sdk.ApplicationId"
  *        android:value="@string/facebook_app_id"/&gt;
  * </pre>
- * <p/>
+ * <p>
  * Create {@code facebook_app_id} in your strings.xml with your Facebook App ID
- * <p/>
+ * <p>
  * Then you can use {@code ParseFacebookUtils}:
- * <p/>
+ * <p>
  * Initialize {@code ParseFacebookUtils} in your {@link android.app.Application#onCreate}:
  * <pre>
  * public class MyApplication extends Application {
@@ -52,7 +52,7 @@ import bolts.Task;
  *   }
  * }
  * </pre>
- * <p/>
+ * <p>
  * Add {@link ParseFacebookUtils#onActivityResult(int, int, android.content.Intent)} to
  * your {@link android.app.Activity#onActivityResult(int, int, android.content.Intent)}:
  * <pre>
@@ -63,7 +63,7 @@ import bolts.Task;
  *   }
  * }
  * </pre>
- * <p/>
+ * <p>
  * Lastly, log in with {@link ParseFacebookUtils#logInWithReadPermissionsInBackground(android.app.Activity, java.util.Collection)}
  */
 public final class ParseFacebookUtils {
@@ -75,6 +75,7 @@ public final class ParseFacebookUtils {
   /* package for tests */ static ParseUserDelegate userDelegate = new ParseUserDelegateImpl();
 
   /**
+   * @param user A {@link com.parse.ParseUser} object.
    * @return {@code true} if the user is linked to a Facebook account.
    */
   public static boolean isLinked(ParseUser user) {
@@ -83,7 +84,7 @@ public final class ParseFacebookUtils {
 
   /**
    * Initializes {@code ParseFacebookUtils} and {@link com.facebook.FacebookSdk}.
-   * <p/>
+   * <p>
    * This should be called in your {@link android.app.Application#onCreate()}.
    *
    * @param context The application context
@@ -94,7 +95,7 @@ public final class ParseFacebookUtils {
 
   /**
    * Initializes {@code ParseFacebookUtils} and {@link com.facebook.FacebookSdk}.
-   * <p/>
+   * <p>
    * This should be called in your {@link android.app.Application#onCreate()}.
    *
    * @param context The application context
@@ -176,6 +177,7 @@ public final class ParseFacebookUtils {
    *
    * @param accessToken Authorization credentials of a Facebook user.
    * @param callback A callback that will be executed when logging in is complete.
+   * @return A task that will be resolved when logging in is complete.
    */
   public static Task<ParseUser> logInInBackground(AccessToken accessToken, LogInCallback callback) {
     return callbackOnMainThreadAsync(logInInBackground(accessToken), callback, true);
@@ -199,6 +201,7 @@ public final class ParseFacebookUtils {
    * @param activity The activity which is starting the login process.
    * @param permissions The requested permissions.
    * @param callback A callback that will be executed when logging in is complete.
+   * @return A task that will be resolved when logging in is complete.
    */
   public static Task<ParseUser> logInWithReadPermissionsInBackground(Activity activity,
       Collection<String> permissions, LogInCallback callback) {
@@ -224,6 +227,7 @@ public final class ParseFacebookUtils {
    * @param activity The activity which is starting the login process.
    * @param permissions The requested permissions.
    * @param callback A callback that will be executed when logging in is complete.
+   * @return A task that will be resolved when logging in is complete.
    */
   public static Task<ParseUser> logInWithPublishPermissionsInBackground(Activity activity,
       Collection<String> permissions, LogInCallback callback) {
@@ -249,6 +253,7 @@ public final class ParseFacebookUtils {
    * @param fragment The fragment which is starting the login process.
    * @param permissions The requested permissions.
    * @param callback A callback that will be executed when logging in is complete.
+   * @return A task that will be resolved when logging in is complete.
    */
   public static Task<ParseUser> logInWithReadPermissionsInBackground(Fragment fragment,
       Collection<String> permissions, LogInCallback callback) {
@@ -274,6 +279,7 @@ public final class ParseFacebookUtils {
    * @param fragment The fragment which is starting the login process.
    * @param permissions The requested permissions.
    * @param callback A callback that will be executed when logging in is complete.
+   * @return A task that will be resolved when logging in is complete.
    */
   public static Task<ParseUser> logInWithPublishPermissionsInBackground(Fragment fragment,
       Collection<String> permissions, LogInCallback callback) {
@@ -305,6 +311,7 @@ public final class ParseFacebookUtils {
    * Link an existing Parse user with a Facebook account using authorization credentials that have
    * already been obtained.
    *
+   * @param user The Parse user to link with.
    * @param accessToken Authorization credentials of a Facebook user.
    * @return A task that will be resolved when linking is complete.
    */
@@ -317,8 +324,10 @@ public final class ParseFacebookUtils {
    * Link an existing Parse user with a Facebook account using authorization credentials that have
    * already been obtained.
    *
+   * @param user The Parse user to link with.
    * @param accessToken Authorization credentials of a Facebook user.
    * @param callback A callback that will be executed when linking is complete.
+   * @return A task that will be resolved when logging in is complete.
    */
   public static Task<Void> linkInBackground(ParseUser user, AccessToken accessToken,
       SaveCallback callback) {
@@ -345,6 +354,7 @@ public final class ParseFacebookUtils {
    * @param activity The activity which is starting the login process.
    * @param permissions The requested permissions.
    * @param callback A callback that will be executed when linking is complete.
+   * @return A task that will be resolved when linking is complete.
    */
   public static Task<Void> linkWithReadPermissionsInBackground(ParseUser user,
       Activity activity, Collection<String> permissions, SaveCallback callback) {
@@ -372,6 +382,7 @@ public final class ParseFacebookUtils {
    * @param activity The activity which is starting the login process.
    * @param permissions The requested permissions.
    * @param callback A callback that will be executed when linking is complete.
+   * @return A task that will be resolved when linking is complete.
    */
   public static Task<Void> linkWithPublishPermissionsInBackground(ParseUser user,
       Activity activity, Collection<String> permissions, SaveCallback callback) {
@@ -399,6 +410,7 @@ public final class ParseFacebookUtils {
    * @param fragment The fragment which is starting the login process.
    * @param permissions The requested permissions.
    * @param callback A callback that will be executed when linking is complete.
+   * @return A task that will be resolved when linking is complete.
    */
   public static Task<Void> linkWithReadPermissionsInBackground(ParseUser user,
       Fragment fragment, Collection<String> permissions, SaveCallback callback) {
@@ -426,6 +438,7 @@ public final class ParseFacebookUtils {
    * @param fragment The fragment which is starting the login process.
    * @param permissions The requested permissions.
    * @param callback A callback that will be executed when linking is complete.
+   * @return A task that will be resolved when linking is complete.
    */
   public static Task<Void> linkWithPublishPermissionsInBackground(ParseUser user,
       Fragment fragment, Collection<String> permissions, SaveCallback callback) {
@@ -469,6 +482,7 @@ public final class ParseFacebookUtils {
    *
    * @param user The user to unlink.
    * @param callback A callback that will be executed when unlinking is complete.
+   * @return A task that will be resolved when linking is complete.
    */
   public static Task<Void> unlinkInBackground(ParseUser user, SaveCallback callback) {
     return callbackOnMainThreadAsync(unlinkInBackground(user), callback, false);

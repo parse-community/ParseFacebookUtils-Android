@@ -225,7 +225,7 @@ bintray {
 
     pkg {
         repo = 'maven'
-        name = 'ParseTwitterUtils-Android'
+        name = 'ParseFacebookUtils-Android'
         userOrg = 'parse'
         licenses = ['BSD']
         vcsUrl = projGitLink

@@ -9,7 +9,7 @@ ext {
     projName = 'ParseFacebookUtils-Android'
     projArtifact = 'parsefacebookutils-v4-android'
     projDescription = 'A utility library to authenticate ParseUsers with the Facebook SDK'
-    projGitlink = 'https://github.com/ParsePlatform/ParseFacebookUtils-Android'
+    projGitLink = 'https://github.com/ParsePlatform/ParseFacebookUtils-Android'
 }
 
 buildscript {
@@ -146,7 +146,7 @@ uploadArchives {
             artifactId = projArtifact
             packaging 'aar'
             description projDescription
-            url projGitlink
+            url projGitLink
         }
 
         pom.project basePom << pomConfig
@@ -222,12 +222,13 @@ bintray {
     publications = ["MyPublication"]
 
     publish = true
+
     pkg {
         repo = 'maven'
         name = 'ParseTwitterUtils-Android'
         userOrg = 'parse'
         licenses = ['BSD']
-        vcsUrl = projGitlink
+        vcsUrl = projGitLink
         version {
             name = project.version
             desc = projDescription

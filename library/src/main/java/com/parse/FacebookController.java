@@ -12,6 +12,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.Fragment;
+import android.text.TextUtils;
 
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
@@ -156,15 +157,7 @@ import bolts.Task;
     authData.put(KEY_REFRESH_DATE, PRECISE_DATE_FORMAT.format(accessToken.getLastRefresh()));
 
     Set<String> permissionSet = accessToken.getPermissions();
-    StringBuilder stringBuilder = new StringBuilder();
-    for (String permission : permissionSet) {
-      stringBuilder.append(permission);
-      stringBuilder.append(",");
-    }
-    if (stringBuilder.length() > 0) {
-      stringBuilder.deleteCharAt(stringBuilder.length() - 1);
-    }
-    String valueToInsert = stringBuilder.toString();
+    String valueToInsert = TextUtils.join(",", permissionSet);
     authData.put(KEY_PERMISSIONS, valueToInsert);
 
     return authData;

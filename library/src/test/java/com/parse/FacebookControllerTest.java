@@ -22,7 +22,9 @@ import com.facebook.login.LoginResult;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
+import org.robolectric.RobolectricTestRunner;
 
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -49,6 +51,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
 
+@RunWith(RobolectricTestRunner.class)
 public class FacebookControllerTest {
 
   private Locale defaultLocale;

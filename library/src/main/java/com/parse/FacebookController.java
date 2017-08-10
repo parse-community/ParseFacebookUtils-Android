@@ -12,6 +12,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.Fragment;
+import android.text.TextUtils;
 
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
@@ -24,9 +25,12 @@ import com.facebook.login.LoginResult;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Collection;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Set;
 import java.util.SimpleTimeZone;
 
 import bolts.Task;
@@ -48,6 +52,8 @@ import bolts.Task;
   private static final String KEY_USER_ID = "id";
   private static final String KEY_ACCESS_TOKEN = "access_token";
   private static final String KEY_EXPIRATION_DATE = "expiration_date";
+  private static final String KEY_REFRESH_DATE = "last_refresh_date";
+  private static final String KEY_PERMISSIONS = "permissions";
 
   // Mirrors com.facebook.internal.LoginAuthorizationType.java
   public enum LoginAuthorizationType {
@@ -131,11 +137,29 @@ import bolts.Task;
     return tcs.getTask();
   }
 
+  /**
+   * Get auth data from the access token.
+   * Includes the following:
+   * - UserId
+   * - Access Token
+   * - Expiration Date
+   * - Last Refresh Date
+   * - Permissions (Comma Delineated)
+   * @param accessToken - Facebook's {@link AccessToken}
+   * @return - {@link Map} of auth data used parse to create facebook {@link AccessToken} by hand.
+   * See {@link FacebookController#setAuthData(Map)}
+   */
   public Map<String, String> getAuthData(AccessToken accessToken) {
     Map<String, String> authData = new HashMap<>();
     authData.put(KEY_USER_ID, accessToken.getUserId());
     authData.put(KEY_ACCESS_TOKEN, accessToken.getToken());
     authData.put(KEY_EXPIRATION_DATE, PRECISE_DATE_FORMAT.format(accessToken.getExpires()));
+    authData.put(KEY_REFRESH_DATE, PRECISE_DATE_FORMAT.format(accessToken.getLastRefresh()));
+
+    Set<String> permissionSet = accessToken.getPermissions();
+    String valueToInsert = TextUtils.join(",", permissionSet);
+    authData.put(KEY_PERMISSIONS, valueToInsert);
+
     return authData;
   }
 
@@ -148,23 +172,44 @@ import bolts.Task;
 
     String token = authData.get(KEY_ACCESS_TOKEN);
     String userId = authData.get(KEY_USER_ID);
+    Date lastRefreshDate = PRECISE_DATE_FORMAT.parse(authData.get(KEY_REFRESH_DATE));
 
     AccessToken currentAccessToken = facebookSdkDelegate.getCurrentAccessToken();
     if (currentAccessToken != null) {
       String currToken = currentAccessToken.getToken();
       String currUserId = currentAccessToken.getUserId();
+      Date currLastRefreshDate = currentAccessToken.getLastRefresh();
+
       if (currToken != null && currToken.equals(token)
           && currUserId != null && currUserId.equals(userId)) {
         // Don't reset the current token if it's the same. If we reset it every time we'd lose
         // permissions, source, lastRefreshTime, etc.
         return;
       }
+
+      //Don't reset if facebook sdk auth token is newer than what is cached by parse. Trust FB.
+      if (currLastRefreshDate != null
+              && currLastRefreshDate.after(lastRefreshDate)){
+        return;
+      }
     }
+
+    //Don't forget permissions....if available
+    String permissionsCommaDelineated = authData.get(KEY_PERMISSIONS);
+    Set<String> permissions = null;
+    if (permissionsCommaDelineated != null && !permissionsCommaDelineated.isEmpty()) {
+      String permissionsArray[] = permissionsCommaDelineated.split(",");
+      permissions = new HashSet<>();
+      for (int i = 0; i < permissionsArray.length; i++) {
+        permissions.add(permissionsArray[i]);
+      }
+    }
+
     AccessToken accessToken = new AccessToken(
         token,
         facebookSdkDelegate.getApplicationId(),
         userId,
-        null,
+        permissions,
         null,
         null,
         PRECISE_DATE_FORMAT.parse(authData.get(KEY_EXPIRATION_DATE)),

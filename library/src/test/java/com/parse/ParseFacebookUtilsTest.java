@@ -21,7 +21,9 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 import org.mockito.runners.MockitoJUnitRunner;
+import org.robolectric.RobolectricTestRunner;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -45,7 +47,7 @@ import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-@RunWith(MockitoJUnitRunner.class)
+@RunWith(RobolectricTestRunner.class)
 public class ParseFacebookUtilsTest {
 
   @Mock
@@ -55,8 +57,10 @@ public class ParseFacebookUtilsTest {
 
   @Before
   public void setUp() {
+    MockitoAnnotations.initMocks(this);
     ParseFacebookUtils.controller = controller;
     ParseFacebookUtils.userDelegate = userDelegate;
+
   }
 
   @After

@@ -42,8 +42,11 @@ import bolts.Task;
    */
   private static final DateFormat PRECISE_DATE_FORMAT =
       new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.US);
+  private static final DateFormat IMPRECISE_DATE_FORMAT =
+      new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.US);
   static {
     PRECISE_DATE_FORMAT.setTimeZone(new SimpleTimeZone(0, "GMT"));
+    IMPRECISE_DATE_FORMAT.setTimeZone(new SimpleTimeZone(0, "GMT"));
   }
 
   // Used as default activityCode. From FacebookSdk.java.
@@ -172,7 +175,7 @@ import bolts.Task;
 
     String token = authData.get(KEY_ACCESS_TOKEN);
     String userId = authData.get(KEY_USER_ID);
-    Date lastRefreshDate = PRECISE_DATE_FORMAT.parse(authData.get(KEY_REFRESH_DATE));
+    Date lastRefreshDate = parseDateString(authData.get(KEY_REFRESH_DATE));
 
     AccessToken currentAccessToken = facebookSdkDelegate.getCurrentAccessToken();
     if (currentAccessToken != null) {
@@ -212,7 +215,7 @@ import bolts.Task;
         permissions,
         null,
         null,
-        PRECISE_DATE_FORMAT.parse(authData.get(KEY_EXPIRATION_DATE)),
+        parseDateString(authData.get(KEY_EXPIRATION_DATE)),
         null);
     facebookSdkDelegate.setCurrentAccessToken(accessToken);
   }
@@ -224,6 +227,25 @@ import bolts.Task;
     void setCurrentAccessToken(AccessToken token);
     CallbackManager createCallbackManager();
     LoginManager getLoginManager();
+  }
+
+  /**
+   * Convert String representation of a date into Date object.
+   *
+   * Following date formats are supported:
+   * yyyy-MM-dd'T'HH:mm:ss.SSS'Z'
+   * yyyy-MM-dd'T'HH:mm:ss'Z'
+   *
+   * @param source A <code>String</code> whose beginning should be parsed.
+   * @return A <code>Date</code> parsed from the string.
+   * @exception java.text.ParseException if the beginning of the specified string cannot be parsed.
+   */
+  private Date parseDateString(String source) throws java.text.ParseException {
+    try {
+        return PRECISE_DATE_FORMAT.parse(source);
+    } catch (java.text.ParseException e) {
+        return IMPRECISE_DATE_FORMAT.parse(source);
+    }
   }
 
   private static class FacebookSdkDelegateImpl implements FacebookSdkDelegate {

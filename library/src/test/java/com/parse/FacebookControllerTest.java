@@ -235,6 +235,30 @@ public class FacebookControllerTest {
     assertEquals("test_application_id", accessToken.getApplicationId());
   }
 
+  @Test
+  public void testSetAuthDataWithNoRefreshDate() throws ParseException {
+    Locale.setDefault(new Locale("ar")); // Mimic the device's locale
+    TimeZone.setDefault(TimeZone.getTimeZone("PST"));
+
+    FacebookController.FacebookSdkDelegate facebookSdk =
+            mock(FacebookController.FacebookSdkDelegate.class);
+    when(facebookSdk.getApplicationId()).thenReturn("test_application_id");
+    FacebookController controller = new FacebookController(facebookSdk);
+
+    Map<String, String> authData = new HashMap<>();
+    authData.put("id", "test_id");
+    authData.put("access_token", "test_token");
+    authData.put("expiration_date", "2015-07-03T07:00:00Z");
+    controller.setAuthData(authData);
+    ArgumentCaptor<AccessToken> accessTokenCapture = ArgumentCaptor.forClass(AccessToken.class);
+    verify(facebookSdk).setCurrentAccessToken(accessTokenCapture.capture());
+    AccessToken accessToken = accessTokenCapture.getValue();
+    assertEquals("test_id", accessToken.getUserId());
+    assertEquals("test_token", accessToken.getToken());
+    assertEquals(new GregorianCalendar(2015, 6, 3).getTime(), accessToken.getExpires());
+    assertEquals("test_application_id", accessToken.getApplicationId());
+  }
+
   //endregion
 
   //region testAuthenticateAsync

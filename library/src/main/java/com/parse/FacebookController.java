@@ -175,7 +175,12 @@ import bolts.Task;
 
     String token = authData.get(KEY_ACCESS_TOKEN);
     String userId = authData.get(KEY_USER_ID);
-    Date lastRefreshDate = parseDateString(authData.get(KEY_REFRESH_DATE));
+    String lastRefreshDateString = authData.get(KEY_REFRESH_DATE);
+
+    Date lastRefreshDate = null;
+    if (lastRefreshDateString != null) {
+      lastRefreshDate = parseDateString(lastRefreshDateString);
+    }
 
     AccessToken currentAccessToken = facebookSdkDelegate.getCurrentAccessToken();
     if (currentAccessToken != null) {
@@ -192,6 +197,7 @@ import bolts.Task;
 
       //Don't reset if facebook sdk auth token is newer than what is cached by parse. Trust FB.
       if (currLastRefreshDate != null
+              && lastRefreshDate != null
               && currLastRefreshDate.after(lastRefreshDate)){
         return;
       }

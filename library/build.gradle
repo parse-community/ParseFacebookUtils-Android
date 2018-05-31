@@ -23,33 +23,32 @@ buildscript {
 }
 
 android {
-    compileSdkVersion 25
-    buildToolsVersion "25.0.2"
+    compileSdkVersion 27
 
     defaultConfig {
         minSdkVersion 15
-        targetSdkVersion 25
+        targetSdkVersion 27
         versionCode 1
         versionName project.version
     }
 }
 
 dependencies {
-    compile 'com.parse:parse-android:1.15.8'
+    implementation 'com.parse:parse-android:1.17.3'
 
     // We need to exclude bolts-android since facebook-android-sdk 4.x.x depends on a version of
     // bolts-android before being split into bolts-tasks and bolts-applinks.
-    compile ('com.facebook.android:facebook-android-sdk:4.24.0') {
+    implementation ('com.facebook.android:facebook-android-sdk:4.33.0') {
         exclude module: 'bolts-android'
     }
     // facebook-android-sdk 4.x.x depends on AppLinks inside bolts-android
-    compile 'com.parse.bolts:bolts-applinks:1.4.0'
+    implementation 'com.parse.bolts:bolts-applinks:1.4.0'
 
-    testCompile 'junit:junit:4.12'
-    testCompile 'org.mockito:mockito-core:1.10.19'
+    testImplementation 'junit:junit:4.12'
+    testImplementation 'org.mockito:mockito-core:1.10.19'
 
-    testCompile 'org.robolectric:robolectric:3.1.1'
-    testCompile 'org.robolectric:shadows-support-v4:3.1.1'
+    testImplementation 'org.robolectric:robolectric:3.1.1'
+    testImplementation 'org.robolectric:shadows-support-v4:3.1.1'
 }
 
 android.libraryVariants.all { variant ->
@@ -79,7 +78,9 @@ android.libraryVariants.all { variant ->
         description "Generates Javadoc for $variant.name."
         source = variant.javaCompile.source
         ext.androidJar = "${android.sdkDirectory}/platforms/${android.compileSdkVersion}/android.jar"
-        classpath = files(variant.javaCompile.classpath.files) + files(ext.androidJar)
+        doFirst {
+            classpath = files(variant.javaCompile.classpath.files) + files(ext.androidJar)
+        }
 
         options.linksOffline("http://d.android.com/reference", "${android.sdkDirectory}/docs/reference")
         options.links("http://boltsframework.github.io/docs/android/")

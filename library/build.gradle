@@ -133,30 +133,6 @@ def pomConfig = {
   }
 }
 
-uploadArchives {
-    repositories.mavenDeployer {
-        beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
-
-        repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2/") {
-            authentication(userName: ossrhUsername, password: ossrhPassword)
-        }
-
-        snapshotRepository(url: "https://oss.sonatype.org/content/repositories/snapshots/") {
-            authentication(userName: ossrhUsername, password: ossrhPassword)
-        }
-
-        def basePom = {
-            name projName
-            artifactId = projArtifact
-            packaging 'aar'
-            description projDescription
-            url projGitLink
-        }
-
-        pom.project basePom << pomConfig
-    }
-}
-
 signing {
     required { !isSnapshot && gradle.taskGraph.hasTask("uploadArchives") }
     sign configurations.archives

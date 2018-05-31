@@ -13,6 +13,12 @@ plugins {
     id "com.jfrog.bintray" version "1.7.3"
 }
 
+plugins {
+    // This version depends on Gradle version used
+    // See https://github.com/wupdigital/android-maven-publish#compatibility-information
+    id 'digital.wup.android-maven-publish' version '3.2.0'
+}
+
 allprojects {
     repositories {
         google()

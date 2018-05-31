@@ -7,15 +7,15 @@
 A utility library to authenticate `ParseUser`s with the Facebook SDK. For more information, see our [guide][guide].
 
 ## Download
-Download [the latest JAR][latest] or define in Gradle:
+Download [the latest AAR][latest] or define in Gradle:
 
 ```groovy
 dependencies {
-  compile 'com.parse:parsefacebookutils-v4-android:1.10.4@aar'
+  compile 'com.parse:parsefacebookutils-v4-android:1.10.6'
 }
 ```
 
-Snapshots of the development version are available in [Sonatype's `snapshots` repository][snap].
+Snapshots of the development version are available by using [Jitpack][jitpack-snapshot-link].
 
 ## Usage
 Everything can done through the supplied gradle wrapper:
@@ -46,15 +46,15 @@ We want to make contributing to this project as easy and transparent as possible
     All rights reserved.
 
     This source code is licensed under the BSD-style license found in the
-    LICENSE file in the root directory of this source tree. An additional grant 
+    LICENSE file in the root directory of this source tree. An additional grant
     of patent rights can be found in the PATENTS file in the same directory.
 
-As of April 5, 2017, Parse, LLC has transferred this code to the parse-community organization, and will no longer be contributing to or distributing this code. 
+As of April 5, 2017, Parse, LLC has transferred this code to the parse-community organization, and will no longer be contributing to or distributing this code.
 
  [guide]: https://parse.com/docs/android/guide#users-facebook-users
 
  [latest]: https://search.maven.org/remote_content?g=com.parse&a=parsefacebookutils-v4-android&v=LATEST
- [snap]: https://oss.sonatype.org/content/repositories/snapshots/
+ [jitpack-snapshot-link]: https://jitpack.io/#parse-community/ParseFacebookUtils-Android/master-SNAPSHOT
 
  [build-status-svg]: https://travis-ci.org/ParsePlatform/ParseFacebookUtils-Android.svg?branch=master
  [build-status-link]: https://travis-ci.org/ParsePlatform/ParseFacebookUtils-Android

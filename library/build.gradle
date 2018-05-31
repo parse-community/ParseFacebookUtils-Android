@@ -3,7 +3,7 @@ import com.android.builder.core.BuilderConstants
 apply plugin: 'com.android.library'
 
 group = 'com.parse'
-version = '1.10.6-SNAPSHOT'
+version = '1.10.6'
 
 ext {
     projName = 'ParseFacebookUtils-Android'
@@ -131,30 +131,6 @@ def pomConfig = {
         name 'Parse'
      }
   }
-}
-
-uploadArchives {
-    repositories.mavenDeployer {
-        beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
-
-        repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2/") {
-            authentication(userName: ossrhUsername, password: ossrhPassword)
-        }
-
-        snapshotRepository(url: "https://oss.sonatype.org/content/repositories/snapshots/") {
-            authentication(userName: ossrhUsername, password: ossrhPassword)
-        }
-
-        def basePom = {
-            name projName
-            artifactId = projArtifact
-            packaging 'aar'
-            description projDescription
-            url projGitLink
-        }
-
-        pom.project basePom << pomConfig
-    }
 }
 
 signing {

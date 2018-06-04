@@ -11,9 +11,11 @@ Download [the latest AAR][latest] or define in Gradle:
 
 ```groovy
 dependencies {
-  implementation 'com.parse:parsefacebookutils-v4-android:1.10.6'
+  implementation 'com.parse:parsefacebookutils-v4-android:X.X.X' 
 }
 ```
+
+where `X.X.X` is the latest version: [![Bintray][bintray-svg]][bintray-link]
 
 Snapshots of the development version are available by using [Jitpack][jitpack-snapshot-link].
 

@@ -6,7 +6,7 @@
  * LICENSE file in the root directory of this source tree. An additional grant
  * of patent rights can be found in the PATENTS file in the same directory.
  */
-package com.parse;
+package com.parse.facebook;
 
 import android.app.Activity;
 import android.content.Context;
@@ -24,6 +24,7 @@ import com.facebook.login.LoginResult;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
@@ -35,7 +36,7 @@ import java.util.SimpleTimeZone;
 
 import bolts.Task;
 
-/** package */ class FacebookController {
+class FacebookController {
 
   /**
    * Precise date format required for auth expiration data.
@@ -67,11 +68,11 @@ import bolts.Task;
 
   private CallbackManager callbackManager;
 
-  /* package */ FacebookController(FacebookSdkDelegate facebookSdkDelegate) {
+  FacebookController(FacebookSdkDelegate facebookSdkDelegate) {
     this.facebookSdkDelegate = facebookSdkDelegate;
   }
 
-  public FacebookController() {
+  FacebookController() {
     this(new FacebookSdkDelegateImpl());
   }
 
@@ -208,10 +209,7 @@ import bolts.Task;
     Set<String> permissions = null;
     if (permissionsCommaDelineated != null && !permissionsCommaDelineated.isEmpty()) {
       String permissionsArray[] = permissionsCommaDelineated.split(",");
-      permissions = new HashSet<>();
-      for (int i = 0; i < permissionsArray.length; i++) {
-        permissions.add(permissionsArray[i]);
-      }
+      permissions = new HashSet<>(Arrays.asList(permissionsArray));
     }
 
     AccessToken accessToken = new AccessToken(

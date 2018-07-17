@@ -1,22 +1,17 @@
-// Top-level build file where you can add configuration options common to all sub-projects/modules.
 buildscript {
     repositories {
         google()
         jcenter()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.1.2'
+        classpath 'com.android.tools.build:gradle:3.1.3'
+        classpath 'org.kt3k.gradle.plugin:coveralls-gradle-plugin:2.8.2'
+        classpath 'com.github.dcendents:android-maven-gradle-plugin:2.1'
     }
 }
 
 plugins {
-    id "com.jfrog.bintray" version "1.7.3"
-}
-
-plugins {
-    // This version depends on Gradle version used
-    // See https://github.com/wupdigital/android-maven-publish#compatibility-information
-    id 'digital.wup.android-maven-publish' version '3.2.0'
+    id 'com.github.ben-manes.versions' version '0.20.0'
 }
 
 allprojects {
@@ -24,4 +19,8 @@ allprojects {
         google()
         jcenter()
     }
+}
+
+task clean(type: Delete) {
+    delete rootProject.buildDir
 }

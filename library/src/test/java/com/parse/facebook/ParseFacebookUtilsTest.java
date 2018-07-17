@@ -6,7 +6,7 @@
  * LICENSE file in the root directory of this source tree. An additional grant
  * of patent rights can be found in the PATENTS file in the same directory.
  */
-package com.parse;
+package com.parse.facebook;
 
 import android.app.Activity;
 import android.content.Context;
@@ -14,6 +14,8 @@ import android.content.Intent;
 import android.support.v4.app.Fragment;
 
 import com.facebook.AccessToken;
+import com.parse.AuthenticationCallback;
+import com.parse.ParseUser;
 
 import org.junit.After;
 import org.junit.Before;
@@ -22,7 +24,6 @@ import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.mockito.runners.MockitoJUnitRunner;
 import org.robolectric.RobolectricTestRunner;
 
 import java.util.Collection;

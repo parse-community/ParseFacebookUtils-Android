@@ -1,26 +1,4 @@
-import com.android.builder.core.BuilderConstants
-
 apply plugin: 'com.android.library'
-
-group = 'com.parse'
-version = '1.10.7'
-
-ext {
-    projName = 'ParseFacebookUtils-Android'
-    projArtifact = 'parsefacebookutils-v4-android'
-    projDescription = 'A utility library to authenticate ParseUsers with the Facebook SDK'
-    projGitLink = 'https://github.com/ParsePlatform/ParseFacebookUtils-Android'
-}
-
-buildscript {
-    repositories {
-        jcenter()
-    }
-
-    dependencies {
-        classpath 'org.kt3k.gradle.plugin:coveralls-gradle-plugin:2.0.1x'
-    }
-}
 
 android {
     compileSdkVersion 27
@@ -29,20 +7,14 @@ android {
         minSdkVersion 15
         targetSdkVersion 27
         versionCode 1
-        versionName project.version
+        versionName "1.0"
     }
 }
 
 dependencies {
-    implementation 'com.parse:parse-android:1.17.3'
+    api 'com.parse:parse-android:1.17.3'
 
-    // We need to exclude bolts-android since facebook-android-sdk 4.x.x depends on a version of
-    // bolts-android before being split into bolts-tasks and bolts-applinks.
-    implementation ('com.facebook.android:facebook-android-sdk:4.33.0') {
-        exclude module: 'bolts-android'
-    }
-    // facebook-android-sdk 4.x.x depends on AppLinks inside bolts-android
-    implementation 'com.parse.bolts:bolts-applinks:1.4.0'
+    api 'com.facebook.android:facebook-android-sdk:4.34.0'
 
     testImplementation 'junit:junit:4.12'
     testImplementation 'org.mockito:mockito-core:1.10.19'
@@ -50,104 +22,6 @@ dependencies {
     testImplementation 'org.robolectric:robolectric:3.1.1'
     testImplementation 'org.robolectric:shadows-support-v4:3.1.1'
 }
-
-android.libraryVariants.all { variant ->
-    def name = variant.buildType.name
-
-    def jarTask = task("jar${name.capitalize()}", type: Jar) {
-        dependsOn variant.javaCompile
-        from variant.javaCompile.destinationDir
-
-        manifest {
-            attributes(
-                    "Bundle-Name": 'parsefacebookutils-v4-android',
-                    "Bundle-Version": project.version
-            )
-        }
-
-        exclude '**/R.class'
-        exclude '**/R\$*.class'
-        exclude '**/Manifest.class'
-        exclude '**/Manifest\$*.class'
-        exclude '**/BuildConfig.class'
-
-        baseName 'ParseFacebookUtilsV4'
-    }
-
-    def javadocTask = task("javadoc${variant.name.capitalize()}", type: Javadoc) {
-        description "Generates Javadoc for $variant.name."
-        source = variant.javaCompile.source
-        ext.androidJar = "${android.sdkDirectory}/platforms/${android.compileSdkVersion}/android.jar"
-        doFirst {
-            classpath = files(variant.javaCompile.classpath.files) + files(ext.androidJar)
-        }
-
-        options.linksOffline("http://d.android.com/reference", "${android.sdkDirectory}/docs/reference")
-        options.links("http://boltsframework.github.io/docs/android/")
-
-        exclude '**/BuildConfig.java'
-        exclude '**/R.java'
-        exclude '**/internal/**'
-    }
-
-    def javadocJarTask = task("javadocJar${variant.name.capitalize()}", type: Jar, dependsOn: "javadoc${variant.name.capitalize()}") {
-        classifier = 'javadoc'
-        from javadocTask.destinationDir
-    }
-
-    if (name.equals(BuilderConstants.RELEASE)) {
-        artifacts.add('archives', jarTask);
-        artifacts.add('archives', javadocJarTask);
-    }
-}
-
-//region Maven
-
-apply plugin: 'maven'
-apply plugin: 'signing'
-
-def isSnapshot = version.endsWith('-SNAPSHOT')
-def ossrhUsername = hasProperty('NEXUS_USERNAME') ? NEXUS_USERNAME : System.getenv('CI_NEXUS_USERNAME')
-def ossrhPassword = hasProperty('NEXUS_PASSWORD') ? NEXUS_PASSWORD : System.getenv('CI_NEXUS_PASSWORD')
-
-def pomConfig = {
-  scm {
-     connection 'scm:git@github.com:ParsePlatform/ParseFacebookUtils-Android.git'
-     developerConnection 'scm:git@github.com:ParsePlatform/ParseFacebookUtils-Android.git'
-     url 'https://github.com/ParsePlatform/ParseFacebookUtils-Android'
-  }
-
-  licenses {
-    license {
-      name 'BSD License'
-      url 'https://github.com/ParsePlatform/ParseFacebookUtils-Android/blob/master/LICENSE'
-      distribution 'repo'
-    }
-  }
-
-  developers {
-     developer {
-        id 'parse'
-        name 'Parse'
-     }
-  }
-}
-
-signing {
-    required { !isSnapshot && gradle.taskGraph.hasTask("uploadArchives") }
-    sign configurations.archives
-}
-
-task androidSourcesJar(type: Jar) {
-    classifier = 'sources'
-    from android.sourceSets.main.java.sourceFiles
-}
-
-artifacts {
-    archives androidSourcesJar
-}
-
-//endregion
 
 //region Code Coverage
 
@@ -192,60 +66,3 @@ apply plugin: 'com.github.kt3k.coveralls'
 coveralls.jacocoReportPath = "${buildDir}/reports/jacoco/jacocoTestReport/jacocoTestReport.xml"
 
 //endregion
-
-apply plugin: 'com.jfrog.bintray'
-
-bintray {
-    user = System.getenv('BINTRAY_USER')
-    key = System.getenv('BINTRAY_API_KEY')
-
-    publications = ["mavenAar"]
-
-    publish = true
-
-    pkg {
-        repo = 'maven'
-        name = 'ParseFacebookUtils-Android'
-        userOrg = 'parse'
-        licenses = ['BSD']
-        vcsUrl = projGitLink
-        version {
-            name = project.version
-            desc = projDescription
-            released = new Date()
-            vcsTag = project.version
-
-            // Sonatype username/passwrod must be set for this operation to happen
-            mavenCentralSync {
-              sync = true
-              user = ossrhUsername
-              password = ossrhPassword
-              close = '1' // release automatically
-           }
-        }
-    }
-}
-
-apply plugin: 'digital.wup.android-maven-publish'
-
-publishing {
-    publications {
-        mavenAar(MavenPublication) {
-            from components.android
-            groupId group
-            artifactId projArtifact
-            artifacts = [androidSourcesJar, bundleRelease]
-            version version
-            pom.withXml {
-                def root = asNode()
-                root.appendNode('description', projDescription)
-                root.appendNode('name', projName)
-                root.appendNode('url', projGitLink)
-                root.children().last() + pomConfig
-
-            }
-        }
-    }
-}
-
-// End of Bintray plugin

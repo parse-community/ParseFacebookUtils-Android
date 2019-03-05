@@ -100,7 +100,7 @@ public class FacebookControllerTest {
         null,
         null,
         calendar.getTime(),
-        null);
+        null, null);
 
     Map<String, String> authData = controller.getAuthData(accessToken);
     assertEquals("user_id", authData.get("id"));

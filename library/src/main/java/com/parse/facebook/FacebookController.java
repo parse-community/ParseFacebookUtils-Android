@@ -220,7 +220,7 @@ class FacebookController {
         null,
         null,
         parseDateString(authData.get(KEY_EXPIRATION_DATE)),
-        null);
+        null, null);
     facebookSdkDelegate.setCurrentAccessToken(accessToken);
   }
 

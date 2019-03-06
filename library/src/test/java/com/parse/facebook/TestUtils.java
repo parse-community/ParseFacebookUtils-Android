@@ -10,17 +10,21 @@ package com.parse.facebook;
 
 import com.facebook.AccessToken;
 
-/** package */ class TestUtils {
-  public static AccessToken newAccessToken() {
-    return new AccessToken(
-        "test_token",
-        "test_application_id",
-        "test_id",
-        null,
-        null,
-        null,
-        null,
-        null,
-            null);
-  }
+/**
+ * package
+ */
+class TestUtils {
+    public static AccessToken newAccessToken() {
+        return new AccessToken(
+                "test_token",
+                "test_application_id",
+                "test_id",
+                null,
+                null,
+                null,
+                null,
+                null,
+                null
+        );
+    }
 }

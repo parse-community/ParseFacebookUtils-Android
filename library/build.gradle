@@ -1,18 +1,18 @@
 apply plugin: 'com.android.library'
 
 android {
-    compileSdkVersion 27
+    compileSdkVersion 28
 
     defaultConfig {
         minSdkVersion 15
-        targetSdkVersion 27
+        targetSdkVersion 28
         versionCode 1
         versionName "1.0"
     }
 }
 
 dependencies {
-    api "com.github.parse-community.Parse-SDK-Android:parse:1.18.0"
+    api "com.github.parse-community.Parse-SDK-Android:parse:1.19.0"
 
     api 'com.facebook.android:facebook-android-sdk:4.40.0'
 

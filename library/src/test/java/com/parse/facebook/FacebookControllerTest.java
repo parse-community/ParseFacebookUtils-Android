@@ -13,6 +13,7 @@ import android.content.Context;
 import android.support.v4.app.Fragment;
 
 import com.facebook.AccessToken;
+import com.facebook.AccessTokenSource;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
@@ -25,6 +26,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
 import org.robolectric.RobolectricTestRunner;
+import org.robolectric.annotation.Config;
 
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -51,6 +53,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
 
+@Config(manifest=Config.NONE)
 @RunWith(RobolectricTestRunner.class)
 public class FacebookControllerTest {
 
@@ -99,6 +102,7 @@ public class FacebookControllerTest {
                 permissions,
                 null,
                 null,
+                AccessTokenSource.DEVICE_AUTH,
                 calendar.getTime(),
                 null, null);
 

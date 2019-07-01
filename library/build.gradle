@@ -12,7 +12,7 @@ android {
 }
 
 dependencies {
-    api "com.github.parse-community.Parse-SDK-Android:parse:1.19.0"
+    api "com.github.parse-community.Parse-SDK-Android:parse:1.20.0"
 
     api 'com.facebook.android:facebook-android-sdk:5.1.0'
 

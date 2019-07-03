@@ -15,6 +15,7 @@ import android.support.v4.app.Fragment;
 import android.text.TextUtils;
 
 import com.facebook.AccessToken;
+import com.facebook.AccessTokenSource;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
@@ -221,6 +222,7 @@ class FacebookController {
                 permissions,
                 null,
                 null,
+                AccessTokenSource.DEVICE_AUTH,
                 parseDateString(authData.get(KEY_EXPIRATION_DATE)),
                 null, null);
         facebookSdkDelegate.setCurrentAccessToken(accessToken);

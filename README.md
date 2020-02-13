@@ -1,4 +1,6 @@
-# Parse Facebook Utils for Android
+# [ARCHIVE] Parse Facebook Utils for Android
+## ParseFacebookUtils has moved to [Parse-SDK-Android](https://github.com/parse-community/Parse-SDK-Android)
+
 [![Build Status][build-status-svg]][build-status-link]
 [![License][license-svg]][license-link]
 [![](https://jitpack.io/v/parse-community/ParseFacebookUtils-Android.svg)](https://jitpack.io/#parse-community/ParseFacebookUtils-Android)
